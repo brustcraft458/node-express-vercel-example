@@ -1,25 +1,39 @@
 // Import packages
 import express from "express"
-import { WebSocketServer } from "ws"
 
 // Middlewares
 const app = express();
 app.use(express.json());
 
+// Example Class
+class Anything {
+  constructor () {
+    this.num = 0
+  }
+
+  add() {
+    this.num++
+  }
+
+  sub() {
+    this.num--
+  }
+
+  toJson() {
+    return {count: this.num}
+  }
+}
+
+var anything = new Anything()
+
 // Root
 app.get("/sample", async (req, res, next) => {
-  // Websocket Tess
-  const wss = new WebSocketServer({port: 3001})
-  wss.on("connection", (ws) => {
-    ws.on("message", async(msg) => {
-      ws.send(`hello ${msg}`)
-    })
+  res.status(200).json({
+    title: "Hello Root",
+    ...anything.toJson()
   })
 
-  return res.status(200).json({
-    title: "Hello Root",
-    socket: wss,
-  });
+  anything.add()
 });
 
 // connection
