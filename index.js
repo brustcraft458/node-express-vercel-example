@@ -6,21 +6,20 @@ import { WebSocketServer } from "ws"
 const app = express();
 app.use(express.json());
 
+// Websocket Tess
+const wss = new WebSocketServer({port: 3000})
+wss.on("connection", (ws) => {
+  ws.on("message", async(msg) => {
+    ws.send(`hello ${msg}`)
+  })
+})
+
 // Root
 app.get("/sample", async (req, res, next) => {
-  try {
-    const wss = new WebSocketServer({port: 3000})
-    // Websocket Tess
-    wss.on("connection", (ws) => {
-      ws.on("message", async(msg) => {
-        ws.send(`hello ${msg}`)
-      })
-
-      res.status(200).json({"state": "conected", "data": JSON.stringify(ws)})
-    })
-  } catch (error) {
-    res.status(200).json(JSON.stringify(error))
-  }
+  return res.status(200).json({
+    title: "Hello Root",
+    socket: wss,
+  });
 });
 
 // connection
