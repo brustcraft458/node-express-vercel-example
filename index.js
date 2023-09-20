@@ -15,9 +15,9 @@ app.get("/sample", async (req, res, next) => {
       ws.on("message", async(msg) => {
         ws.send(`hello ${msg}`)
       })
-    })
 
-    res.status(200).json({"state": "conected"})
+      res.status(200).json({"state": "conected", "data": JSON.stringify(ws)})
+    })
   } catch (error) {
     res.status(200).json(JSON.stringify(error))
   }
