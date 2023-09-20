@@ -9,7 +9,7 @@ app.use(express.json());
 // Root
 app.get("/sample", async (req, res, next) => {
   // Websocket Tess
-  const wss = new WebSocketServer({port: 80})
+  const wss = new WebSocketServer({port: 3001})
   wss.on("connection", (ws) => {
     ws.on("message", async(msg) => {
       ws.send(`hello ${msg}`)
@@ -23,5 +23,5 @@ app.get("/sample", async (req, res, next) => {
 });
 
 // connection
-const port = process.env.PORT || 81;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening to port ${port}`));
