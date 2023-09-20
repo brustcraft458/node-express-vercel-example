@@ -6,16 +6,16 @@ import { WebSocketServer } from "ws"
 const app = express();
 app.use(express.json());
 
-// Websocket Tess
-const wss = new WebSocketServer({port: 3000})
-wss.on("connection", (ws) => {
-  ws.on("message", async(msg) => {
-    ws.send(`hello ${msg}`)
-  })
-})
-
 // Root
 app.get("/sample", async (req, res, next) => {
+  // Websocket Tess
+  const wss = new WebSocketServer({port: 3000})
+  wss.on("connection", (ws) => {
+    ws.on("message", async(msg) => {
+      ws.send(`hello ${msg}`)
+    })
+  })
+
   return res.status(200).json({
     title: "Hello Root",
     socket: wss,
@@ -23,5 +23,5 @@ app.get("/sample", async (req, res, next) => {
 });
 
 // connection
-const port = process.env.PORT || 9001;
+const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Listening to port ${port}`));
