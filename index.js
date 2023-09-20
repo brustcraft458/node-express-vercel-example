@@ -16,6 +16,8 @@ app.get("/sample", async (req, res, next) => {
         ws.send(`hello ${msg}`)
       })
     })
+
+    res.status(200).json({"state": "conected"})
   } catch (error) {
     res.status(200).json(JSON.stringify(error))
   }
