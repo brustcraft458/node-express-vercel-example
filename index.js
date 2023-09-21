@@ -1,41 +1,49 @@
-// Import packages
 import express from "express"
 
-// Middlewares
-const app = express();
-app.use(express.json());
-
-// Example Class
-class Anything {
-  constructor () {
-    this.num = 0
-  }
-
-  add() {
-    this.num++
-  }
-
-  sub() {
-    this.num--
-  }
-
-  toJson() {
-    return {count: this.num}
-  }
+/** Config */
+const appConfig = {    
+    target: {
+        init: process.env.TARGET_INIT || "http://",
+        host: process.env.TARGET_HOST || "localhost"
+    },
+    port: process.env.PORT || 443
 }
 
-var anything = new Anything()
+/* Start */
+const app = express()
 
-// Root
-app.get("/sample", async (req, res, next) => {
-  res.status(200).json({
-    title: "Hello Root",
-    ...anything.toJson()
-  })
+/** Server Start */
+app.listen(appConfig.port, () => {
+    // Bug
+    console.log(`Server Started on localhost:${appConfig.port}`)
+})
 
-  anything.add()
-});
+/** Server Error */
+app.use(function(err, req, res, next) {
+    if (err) {
+        res.sendStatus(400)
+    }
+})
 
-// connection
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening to port ${port}`));
+/**
+ * Server Connection
+ */
+app.get("/socket", (req, res) => {
+    // End
+    res.sendStatus(401)
+})
+
+app.post("/socket", async(req, res) => {
+    // End
+    res.sendStatus(400)
+})
+
+
+/**
+ * Player Message Procces
+ * @param {Player} player
+ */
+async function clientMessageJson(msg, res, player) {
+    res.sendStatus(400)
+    return false
+}
